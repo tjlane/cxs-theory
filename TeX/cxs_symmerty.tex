@@ -1,0 +1,291 @@
+%% ****** Start of file apstemplate.tex ****** %
+%%
+%%
+%%   This file is part of the APS files in the REVTeX 4 distribution.
+%%   Version 4.1r of REVTeX, August 2010
+%%
+%%
+%%   Copyright (c) 2001, 2009, 2010 The American Physical Society.
+%%
+%%   See the REVTeX 4 README file for restrictions and more information.
+%%
+%
+% This is a template for producing manuscripts for use with REVTEX 4.0
+% Copy this file to another name and then work on that file.
+% That way, you always have this original template file to use.
+%
+% Group addresses by affiliation; use superscriptaddress for long
+% author lists, or if there are many overlapping affiliations.
+% For Phys. Rev. appearance, change preprint to twocolumn.
+% Choose pra, prb, prc, prd, pre, prl, prstab, prstper, or rmp for journal
+%  Add 'draft' option to mark overfull boxes with black boxes
+%  Add 'showpacs' option to make PACS codes appear
+%  Add 'showkeys' option to make keywords appear
+
+\documentclass[aps,prl,preprint,groupedaddress]{revtex4-1}
+%\documentclass[aps,prl,preprint,superscriptaddress]{revtex4-1}
+%\documentclass[aps,prl,reprint,groupedaddress]{revtex4-1}
+
+% You should use BibTeX and apsrev.bst for references
+% Choosing a journal automatically selects the correct APS
+% BibTeX style file (bst file), so only uncomment the line
+% below if necessary.
+%\bibliographystyle{apsrev4-1}
+
+\usepackage{amsmath}
+\def\*#1{\mathbf{#1}}
+
+\begin{document}
+
+% Use the \preprint command to place your local institutional report
+% number in the upper righthand corner of the title page in preprint mode.
+% Multiple \preprint commands are allowed.
+% Use the 'preprintnumbers' class option to override journal defaults
+% to display numbers if necessary
+%\preprint{}
+
+%Title of paper
+\title{Correlated scattering may directly reveal local structure in amorphous matter}
+
+% repeat the \author .. \affiliation  etc. as needed
+% \email, \thanks, \homepage, \altaffiliation all apply to the current
+% author. Explanatory text should go in the []'s, actual e-mail
+% address or url should go in the {}'s for \email and \homepage.
+% Please use the appropriate macro foreach each type of information
+
+% \affiliation command applies to all authors since the last
+% \affiliation command. The \affiliation command should follow the
+% other information
+% \affiliation can be followed by \email, \homepage, \thanks as well.
+\author{Thomas J. Lane}
+%\email[]{Your e-mail address}
+%\homepage[]{Your web page}
+%\thanks{}
+%\altaffiliation{}
+\affiliation{}
+
+%Collaboration name if desired (requires use of superscriptaddress
+%option in \documentclass). \noaffiliation is required (may also be
+%used with the \author command).
+%\collaboration can be followed by \email, \homepage, \thanks as well.
+%\collaboration{}
+%\noaffiliation
+
+\date{\today}
+
+\begin{abstract}
+% insert abstract here
+\end{abstract}
+
+% insert suggested PACS numbers in braces on next line
+\pacs{}
+% insert suggested keywords - APS authors don't need to do this
+%\keywords{}
+
+%\maketitle must follow title, authors, abstract, \pacs, and \keywords
+\maketitle
+
+
+\section{Introduction}
+ 
+If we expand the electron density of the object under study in terms of the spherical harmonics $Y_{\ell m}$,
+\[
+\rho( \*r ) = \sum_{\ell m} g_{\ell m} (r) \> Y_{\ell m}(\Omega)
+\]
+where $g_{\ell m} (r)$ is a radial function. Then by Theorem 1, the Fourier transform of this function is
+\[
+\hat{\rho} (\*q) = \sum_{\ell m} \> G_{\ell m} (q) \> Y_{\ell m}(\Omega)
+\]
+where
+\[
+G_{\ell m} (q) = \sqrt{ (2 \ell + 1) \pi} \> i^{-\ell} \> q^{- \ell + \frac{1}{2} } \> \int_0^{\infty} g_{\ell m} (s) J_{\ell + 1/2} (2 \pi q s) \> s^{\ell + \frac{1}{2}} \> ds
+\]
+when the scattering $| \hat{\rho}(\*q) |^2$ thus expanded is substituted into (\ref{M}) we obtain
+\[
+M_{\lambda \mu}(q) = \int Y_{\lambda \mu} (\Omega) \> \Big|
+\sum_{\ell m} G_{\ell m} (q) \> Y_{\ell m}(\Omega)
+\Big|^2 \> d\Omega
+\]
+if we let $H^{LM}_{\ell m} (q) = G_{\ell m}(q) \> G_{L M}^* (q)$, then this can be written more productively by in terms of a Gaunt integral
+\begin{align*}
+M_{\lambda \mu}(q) &= \sum_{\ell m} \sum_{L M} \> H^{LM}_{\ell m} (q) \>
+\int Y_{\lambda \mu} (\Omega) \> Y_{\ell m} (\Omega) \> Y_{LM}^* (\Omega) \> d\Omega \\
+&= \sum_{\ell m} \sum_{L M} \> (-1)^M \> N_{\ell L \lambda} \> H^{LM}_{\ell m} (q) \>
+\left( \begin{array}{ccc}
+\ell & L & \lambda \\
+0 & 0 & 0 \\
+\end{array} \right)
+\left( \begin{array}{ccc}
+\ell & L & \lambda \\
+m & -M & \mu \\
+\end{array} \right)
+\end{align*}
+where we have employed the Wigner $3j$-symbols and the coefficient
+\[
+N_{\ell L \lambda} = \sqrt{ \frac{(2 \ell + 1)(2 L + 1)(2 \lambda + 1)}{4 \pi} }
+\]
+alternatively, we may wish to employ the Wigner-Eckart theorem, in which case this reads
+\[
+M_{\lambda \mu} = \sum_{\ell L} \langle L || Y_\lambda || \ell \rangle 
+\sum_{m M} \> H^{LM}_{\ell m} (q) \>  C^{\ell m}_{\lambda \mu LM}
+\]
+where $\langle L || Y_\lambda || \ell \rangle$ is the \emph{reduced matrix element} independent of $m$ and $M$, and $C^{\ell m}_{\lambda \mu LM}$ is a Clebsh-Gordon coefficient.
+
+
+\section{Kam Expansion}
+
+We assume that we measure the coherent scattering from a system consisting of identical copies of a specific particle or molecule with electron density $\rho(\*{r})$. The effects of inter-particle interference or solvent contribution are ignored until later. Let the scattering from a single molecule with orientation $\omega$ to scattering vector $\*{q}$ be
+\begin{equation} \label{molecular-scattering}
+M( \omega, \*{q} ) = \left| \int \rho(R_\omega \, \*{r}) \> e^{ i \*{q} \cdot \*{r} } d\*r \right|^2
+\end{equation}
+Note that $\omega$ might be \textit{e.g.}~a tuple of three Euler angles, and $R_\omega$ is a rotation operator. We further assume that during the experiment, we expose the sample to light for a very short period of time (much shorter than rotational diffusion) and then refresh the sample and repeat. One such exposure will be called a ``shot'', and the observed intensity for shot indexed $n$ can be written
+\[
+I_n ( \*q ) = \sum_{\omega_i \in \Gamma_n} M( \omega_i, \*{q} ) + \mathrm{interference\ terms}
+\]
+Here, $\Gamma_n$ is the set of orientations for each molecule $i$ for a specific shot $n$. The orientations are assumed to be distributed uniformly on the three dimensional unit ball, and the cardinality of $\Gamma_n$, which we denote $m_n$ (the number of molecules in shot $n$) is Poisson distributed with some mean parameter $m$ that depends on the concentration and beam spot size.
+
+Kam was the first to demonstrate that the correlation function
+\begin{equation}\label{correlation}
+C( \*q_1, \*q_2 ) = \big\langle \delta I_n ( \*q_1 ) \> \delta I_n ( \*q_2 ) \big\rangle_n
+\end{equation}
+where $\delta I_n ( \*q ) = I_n ( \*q ) - S( q )$, contained detailed information about the electron density of the system under study. We can demonstrate this connection between the electron density and correlation function as follows.
+
+The first important thing to realize is what is meant by $\langle \cdot \rangle_n$ -- this is an average over two quantities: first, the specific orientations within each shot, and second, the number of molecules in each shot. Using the definition of $I_n$, we can split the first term in an expansion of (\ref{correlation}) into ``coherent'' and ``incoherent'' terms, respectively
+\[
+I_n ( \*q_1 ) \> I_n ( \*q_2 ) = \sum_{\omega_i \in \Gamma_n} M( \omega_i, \*{q}_1 ) M( \omega_i, \*{q}_2 ) 
++ \sum_{\omega_i \in \Gamma_n}\sum_{\omega_{j \neq i} \in \Gamma_n} M( \omega_i, \*{q}_1 ) M( \omega_j, \*{q}_2 ) 
+\]
+and then perform the expectation, using the fact that the orientations are identically distributed and independent
+\begin{align*}
+%
+\big\langle I_n ( \*q_1 ) \> I_n ( \*q_2 ) \big\rangle_n
+%
+&= \int p(m_n) \int p(\vec{\omega}) 
+\Big\{ \sum_{\omega_i \in \Gamma_n} M( \omega_i, \*{q}_1 ) M( \omega_i, \*{q}_2 ) \\
+& \ \ \ + \sum_{\omega_i \in \Gamma_n}\sum_{\omega_{j \neq i} \in \Gamma_n} M( \omega_i, \*{q}_1 ) M( \omega_j, \*{q}_2 )  \Big\} \> dm_n \\
+%
+&= \int p(m_n) 
+\Big\{ m_n \int M( \omega, \*{q}_1 ) M( \omega, \*{q}_2 ) \> d \omega \\
+& \ \ \ +  (m_n^2 - m_n) \> \int M( \omega, \*{q}_1 ) \> d\omega \int M( \omega, \*{q}_2 ) \> d\omega  \Big\} \> dm_n \\
+%
+&= \int p(m_n) 
+\Big\{ m_n \int M( \omega, \*{q}_1 ) M( \omega, \*{q}_2 ) \> d \omega
++  \frac{(m_n^2 - m_n)}{m^2} \> S(q_1) \> S(q_2)  \Big\} \> dm_n
+%
+\end{align*}
+We can expand the integral
+\begin{equation}\label{integral}
+\int M( \omega, \*{q}_1 ) M( \omega, \*{q}_2 ) \> d \omega
+\end{equation}
+in the spherical harmonics
+\begin{equation}\label{expansion}
+M( \omega, \*{q} ) = \sum_{m m' \ell} M_{\ell m} (q) \> Y_{\ell m'} (\Omega) \> R_{m' m}^{\ell} (\omega)
+\end{equation}
+where $M_{\ell m}$ is a complex coefficient, $ Y_{\ell m'} $ is a spherical harmonic, $\Omega$ is the angular orientation of $\*q$, and $R_{m' m}^{\ell}$ is a Wigner rotation matrix. 
+
+Substituting this into (\ref{integral}) and using first the orthogonality theorem
+\[
+\int R_{m' m}^{(\ell)} (\omega) \> R_{M' M}^{(L)} (\omega) \> d\omega = \frac{1}{2 \ell + 1} \delta_{\ell L} \delta_{m M} \delta_{m' M'}
+\]
+and then the addition theorem
+\[
+\sum_{m'} Y_{\ell m'} (\Omega_1) \> Y_{\ell m'}^* (\Omega_2) = \frac{2 \ell + 1}{ 4 \pi} P_\ell (\cos \psi)
+\]
+where $P_\ell$ is a Legendre polynomial, and $\psi$ is the angle subtended by $\Omega_1$ and $\Omega_2$, we obtain
+\begin{equation}\label{expanded}
+\int M( \omega, \*{q}_1 ) M( \omega, \*{q}_2 ) \> d \omega = \frac{1}{4 \pi} \sum_{\ell} P_\ell (\cos \psi) \left[ \> \sum_{m = -\ell}^{\ell}  \> M_{\ell m} (q_1) \> M_{\ell m}^* (q_2) \> \right]
+\end{equation}
+Finally, substituting this back into
+\begin{equation}\label{kamtheorem}
+\mathrm{ [NEED FULL EXPRESSION]}
+\end{equation}
+This is the central result of Kam, which we will call ``Kam's Expansion''. The term in square brackets is a coefficient of an expansion of the correlation in Legendre polynomials. These coefficients,
+\[
+C_\ell (q_1, q_2) = \sum_{m = -\ell}^{\ell}  \> M_{\ell m} (q_1) \> M_{\ell m}^* (q_2)
+\]
+can be obtained from an experimentally measured correlation function by simple projection,
+\[
+C_\ell (q_1, q_2) = 2 \pi (2 \ell + 1 ) \int_{0}^{\pi} C( q_1, q_2, \psi ) \> P_\ell (\cos \psi ) \> \sin \psi \> d \psi
+\]
+
+Note that the $\ell = 0$ term corresponds to information that is isotropic, dependent only on the magnitudes $q_1$ and $q_2$. This information can be readily re-introduced into any modeling scheme by treating the structure factor $S(q)$ -- which contains all of this isotropic information -- as a separate source of information in addition to measured correlation functions. Further, by Friedel's theorem, $M(\omega, \*q) = M(\omega, - \*q)$, so we expect $C( \*q_1, \*q_2 ) = C( q_1, q_2, \psi )$ to be even around $\psi = 0$. Consequentially, only terms even in $\ell$ should contribute to the sum in (\ref{expanded-correlation}).
+
+
+\section*{Model Comparison}
+
+
+\begin{equation}\label{M}
+M_{\ell m} (q) =  \int Y_{\ell m} (\Omega) M( 0, q, \Omega ) \> d \Omega
+\end{equation}
+via \textit{e.g.}~a finite point-sampling algorithm. The normalization here makes these coefficients directly relatable to those measured by experiment, 
+Equation (\ref{expanded-correlation}) shows that said coefficients can be obtained from experiment by projecting the measured correlation function onto the Legendre polynomials,\footnote{Recall the normalization of Legendre polynomials, $\int_{-1}^{1} P_m (x) P_n(x) dx = \frac{2}{2n + 1} \delta_{mn}$}
+
+where we have written $C( \*q_1, \*q_2 ) = C( q_1, q_2, \psi )$ to emphasize the dependence of the correlation function on the angle between the scattering vectors.
+
+Now the coefficients $C_\ell (q_1, q_2)$ can be matched between a computed model and measured experiment. Alternatively, one could attempt direct inversion, as discussed by Kam, and later Kirian, Saldin, Spence \textit{et.~al.}
+
+
+
+ \section{Useful Facts}
+ 
+The following theorem directly demonstrates that the angular component of the spherical harmonics are preserved under Fourier transformation. It employs a specific radial component to form the \textit{solid spherical harmonics},
+\[
+P_{\ell m}(\*x) = \sqrt{ \frac{4 \pi}{2 \ell +1} } \> r^\ell \> Y_{\ell m} (\theta, \phi)
+\]
+but is general for any radial form of the spherical harmonics in $n$ dimensions.
+ 
+\textbf{Theorem 1} (Stein and Weiss, Thm 3.10, p.~158).
+\textit{Suppose $n \geq 2$, and function $f \in L^2(E_n) \cap  L^1(E_n)$ has form $f(\*x) = f_0(x)P_{\ell m}(\*x)$, where $P_{\ell m}(\*x)$ is a solid spherical harmonic. Then $\hat{f}$ has form $\hat{f}(\*x) = F_0(x)P_{\ell m}(\*x)$ where
+ \[
+ F_0(r) = 2 \pi i^{-\ell} r^{-[(n+2\ell-2)/2]} \int_0^{\infty} f_0(s) \> J_{(n+2\ell-2) / 2} \> (2 \pi r s) \> s^{(n+2\ell)/2} \> ds
+ \]
+ and $J$ is a Bessel function of the first kind.}
+ 
+We further employ the well-known fact that a spherical harmonic of degree $\ell$ can be represented via a linear combination of spherical harmonics, also of degree $\ell$, in a rotated basis.
+
+\textbf{Lemma.}
+\textit{For any linear combination of spherical harmonics of the form $\sum_{m=-\ell}^\ell a_{\ell m} Y_{\ell m} (\Omega)$, and any rotation operator $R_\omega$, there exists a second linear combination of harmonics $\sum_{m=-\ell}^\ell b_{\ell m} Y_{\ell m} (\Omega)$ of same degree $\ell$ such that
+\[
+\sum_{m=-\ell}^\ell a_{\ell m} Y_{\ell m} (\Omega) = \sum_{M=-\ell}^{\ell} b_{\ell M} \> Y_{\ell M} ( R_\omega \, \Omega )
+\]
+whose coefficients obey
+$\sum_{m=-\ell}^\ell a_{\ell m}^2 = \sum_{M=-\ell}^\ell b_{\ell M}^2$}.
+
+Proof. It was demonstrated in [REF] that any spherical harmonic can be represented in a rotated basis by spherical harmonics of the same degree 
+\[
+ Y_{\ell m} (\Omega) = \sum_{M=-\ell}^{\ell} d^{(\ell)}_{mM} \> Y_{\ell M} ( R_\omega \, \Omega )
+\]
+where the coefficients obey $\sum_{M=-\ell}^{\ell} \big[ d^{(\ell)}_{mM} \big]^2 = 1$.
+
+Given a linear combination of such rotated spherical harmonics
+\[
+\sum_{m=-\ell}^{\ell} a_{\ell m} Y_{\ell m} (\Omega) = \sum_{m=-\ell}^{\ell} a_{\ell m} \sum_{M=-\ell}^{\ell} d^{(\ell)}_{mM} \> Y_{\ell M} ( R_\omega \, \Omega )
+\]
+we may rearrange the finite sums
+\[
+\sum_{m=-\ell}^{\ell} a_{\ell m} Y_{\ell m} (\Omega) = \sum_{M=-\ell}^{\ell} A_\ell \> d^{(\ell)}_{mM} \> Y_{\ell M} ( R_\omega \, \Omega )
+\]
+where we have written $A \equiv \sum_{m=-\ell}^\ell a_{\ell m}^2$. Since $\sum_{M=-\ell}^{\ell} \big[ d^{(\ell)}_{mM} \big]^2 = 1$, it follows directly that $\sum_{M=-\ell}^{\ell} \big[ A_\ell \> d^{(\ell)}_{mM} \big]^2 = \sum_{m=-\ell}^\ell a_{\ell m}^2$. Identifying $A_{\ell} \> d^{(\ell)}_{mM} = b_{\ell M}$ completes the proof.
+
+
+
+
+
+
+% Specify following sections are appendices. Use \appendix* if there
+% only one appendix.
+%\appendix
+%\section{}
+
+% If you have acknowledgments, this puts in the proper section head.
+%\begin{acknowledgments}
+% put your acknowledgments here.
+%\end{acknowledgments}
+
+% Create the reference section using BibTeX:
+\bibliography{basename of .bib file}
+
+\end{document}
+%
+% ****** End of file apstemplate.tex ******
+

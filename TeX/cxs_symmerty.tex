@@ -33,6 +33,8 @@
 %\bibliographystyle{apsrev4-1}
 
 \usepackage{amsmath}
+\usepackage{MnSymbol}
+
 \def\*#1{\mathbf{#1}}
 
 \begin{document}
@@ -106,11 +108,11 @@ M_{\lambda \mu}(q) = \int Y_{\lambda \mu} (\Omega) \> \Big|
 \sum_{\ell m} G_{\ell m} (q) \> Y_{\ell m}(\Omega)
 \Big|^2 \> d\Omega
 \]
-if we let $H^{LM}_{\ell m} (q) = G_{\ell m}(q) \> G_{L M}^* (q)$, then this can be written more productively by in terms of a Gaunt integral
+this can be written more productively by in terms of a Gaunt integral
 \begin{align*}
-M_{\lambda \mu}(q) &= \sum_{\ell m} \sum_{L M} \> H^{LM}_{\ell m} (q) \>
+M_{\lambda \mu}(q) &= \sum_{\ell m} \sum_{L M} \> G_{\ell m}(q) \> G_{L M}^* (q) \>
 \int Y_{\lambda \mu} (\Omega) \> Y_{\ell m} (\Omega) \> Y_{LM}^* (\Omega) \> d\Omega \\
-&= \sum_{\ell m} \sum_{L M} \> (-1)^M \> N_{\ell L \lambda} \> H^{LM}_{\ell m} (q) \>
+&= \sum_{\ell m} \sum_{L M} \> (-1)^M \> N_{\ell L \lambda} \> G_{\ell m}(q) \> G_{L M}^* (q) \>
 \left( \begin{array}{ccc}
 \ell & L & \lambda \\
 0 & 0 & 0 \\
@@ -127,10 +129,47 @@ N_{\ell L \lambda} = \sqrt{ \frac{(2 \ell + 1)(2 L + 1)(2 \lambda + 1)}{4 \pi} }
 alternatively, we may wish to employ the Wigner-Eckart theorem, in which case this reads
 \[
 M_{\lambda \mu} = \sum_{\ell L} \langle L || Y_\lambda || \ell \rangle 
-\sum_{m M} \> H^{LM}_{\ell m} (q) \>  C^{\ell m}_{\lambda \mu LM}
+\sum_{m M} \> G_{\ell m}(q) \> G_{L M}^* (q) \>  C^{\ell m}_{\lambda \mu LM}
 \]
 where $\langle L || Y_\lambda || \ell \rangle$ is the \emph{reduced matrix element} independent of $m$ and $M$, and $C^{\ell m}_{\lambda \mu LM}$ is a Clebsh-Gordon coefficient.
 
+Let $h_{\ell m} = | \langle L || Y_\lambda || \ell \rangle \> C^{\ell m}_{\lambda \mu LM} |^{1/2}  \> G_{\ell m}$, so that we may write
+\[
+M_{\lambda \mu} = \sum_{\ell L} \sum_{m M} h_{\ell m}(q) \> h_{L M} (q)
+\exp \big\{ i \theta_{\ell m L M} \big\}
+\]
+where $\theta$ is the phase of $G_{\ell m}(q) \> G_{L M}^* (q)$. So long as we can rotate the Kam bases such that we can ignore all but the $\mu = 0$ term (PROOF NEEDED), then because $m + M + \mu = 0$, we can write
+\[
+M_{\lambda \mu} = \sum_{\ell L} \sum_{m} h_{\ell m}(q) \> h_{L (-m)} (q)
+\exp \big\{ i \theta_{\ell m L M} \big\}
+\]
+Let matrix $H = (h_{\ell k})$, where $k = m + 1, \ k = 1... 2\ell+1$ re-indexes $m$, and $1_n$ be a vector with unity in the first $n$ positions, and zero everywhere else. Then we can write the modulus of $M_{\lambda \mu}$ very compactly in Dirac notation
+\[
+| M_{\lambda \mu} | = \langle 1_\lambda | H \, \Pi \, H^T | 1_\lambda \rangle 
+\]
+with $\Pi$ a permutation matrix of the form
+\[
+\Pi = \left[ \begin{array}{ccc}
+ &  &  1\\
+ & \udots  & \\
+1 &  &  \\
+\end{array} \right]
+\]
+such that the multiplication $A \Pi$ swaps the columns of $A$. Note that the elements of $H$ are functions of $\lambda$ and $q$; their indexing defines the dependence on $\ell, m, L$ and $M$.
+
+Now, the Kam coefficients take the form (dbl chk but I think this is only OK for autocorrelator)
+\[
+C_\lambda (q_1, q_2) =
+\langle 1_\lambda | H_1 \, \Pi \, H_1^T | 1_\lambda \rangle 
+\langle 1_\lambda | H_2 \, \Pi \, H_2^T | 1_\lambda \rangle 
+\]
+for an autocorrelator $q_1 = q_2$,
+\[
+\sqrt{C_\lambda (q, q)} =
+\langle 1_\lambda | H \, \Pi \, H^T  | 1_\lambda \rangle 
+\]
+
+CURRENT MUSING: This demonstrates that the coefficient is quadratic in $h_{\ell m}$, which would be acceptable algorithmic endpoints -- they directly measure the magnitudes of the symmetries in the system under study. What remains is to demonstrate that (1) our rotation trick to eliminate $\mu$ is acceptable, and (2) that the $h_{\ell m}$ can be inferred from the quadratic expression above efficiently via some kind of compressed sensing scheme. Note there are in general $\sum_{\ell = 0}^{\lambda_{max}} 2 \ell + 1$ unknowns for $\lambda_{max}$ knowns, so in general the problem is underdetermined; and the factor of under-determined-ness grows with $\lambda_{max}$.
 
 \section{Kam Expansion}
 

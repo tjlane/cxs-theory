@@ -168,6 +168,22 @@ for an autocorrelator $q_1 = q_2$,
 \sqrt{C_\lambda (q, q)} =
 \langle 1_\lambda | H \, \Pi \, H^T  | 1_\lambda \rangle 
 \]
+the vector $\*C_\lambda$ may be written
+\[
+\sqrt{ \*C_\lambda (q,q) } = T H \, \Pi \, H^T \*1
+\]
+where $T$ is a matrix with ones in the lower diagonal and zeros otherwise and $\*1$ is a vector of all ones.
+
+Further, the conditioning of the problem can be improved if we relax our inferred variables to be
+\[
+x_{\ell L} = \sum_m h_{\ell m} h_{L (-m)}
+\]
+in this case, we obtain
+\[
+\sqrt{ \*C_\lambda (q,q) } = T X \*1
+\]
+where our independent variables are now contained in the $\lambda_{max} \times \lambda_{max}$ matrix $X$ (\emph{vs.}~the $\lambda_{max} \times (2\lambda_{max} + 1)$ matrix $H$, which gives the (rotationally smeared) magnitudes of the symmetries (along the diagonal) and their cross terms (off diagonal). Further, because the inference is now linear (instead of quadratic), this could be solved directly using the principles of compressed sensing via \emph{e.g.}~basis pursuit.
+
 
 CURRENT MUSING: This demonstrates that the coefficient is quadratic in $h_{\ell m}$, which would be acceptable algorithmic endpoints -- they directly measure the magnitudes of the symmetries in the system under study. What remains is to demonstrate that (1) our rotation trick to eliminate $\mu$ is acceptable, and (2) that the $h_{\ell m}$ can be inferred from the quadratic expression above efficiently via some kind of compressed sensing scheme. Note there are in general $\sum_{\ell = 0}^{\lambda_{max}} 2 \ell + 1$ unknowns for $\lambda_{max}$ knowns, so in general the problem is underdetermined; and the factor of under-determined-ness grows with $\lambda_{max}$.
 

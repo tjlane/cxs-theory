@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2009.11.7)  24 AUG 2013 12:33
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2009.11.7)  25 AUG 2013 11:55
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -347,38 +347,43 @@ LaTeX Font Info:    ... okay on input line 40.
 [3] [4] [5]
 
 LaTeX Warning: Reference `expanded-correlation' on page 6 undefined on input li
-ne 250.
+ne 266.
 
 
 LaTeX Warning: Reference `expanded-correlation' on page 6 undefined on input li
-ne 260.
+ne 276.
 
 
-Package natbib Warning: Citation `Note1' on page 6 undefined on input line 260.
+Package natbib Warning: Citation `Note1' on page 6 undefined on input line 276.
 
 
 [6]
-Overfull \hbox (3.02382pt too wide) in paragraph at lines 285--291
+Overfull \hbox (3.02382pt too wide) in paragraph at lines 301--307
 []\OT1/cmr/bx/n/12 Lemma. \OT1/cmr/m/it/12 For any lin-ear com-bi-na-tion of sp
 her-i-cal har-mon-ics of the form $[][] \OML/cmm/m/it/12 a[]Y[]\OMX/MnSymbolE/m
 /n/12 ˆ\OT1/cmr/m/n/12 
 \OMX/MnSymbolE/m/n/12 $\OT1/cmr/m/it/12 ,
  []
 
+[7]
 No file cxs_symmerty.bbl.
 
 Package natbib Warning: There were undefined citations.
 
-[7] (./cxs_symmerty.aux)
+[8] (./cxs_symmerty.aux)
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right .
+
+
  ) 
 Here is how much of TeX's memory you used:
- 4715 strings out of 493848
- 60436 string characters out of 3149207
- 111253 words of memory out of 3000000
- 7990 multiletter control sequences out of 15000+200000
+ 4714 strings out of 493848
+ 60425 string characters out of 3149207
+ 112253 words of memory out of 3000000
+ 7989 multiletter control sequences out of 15000+200000
  13657 words of font info for 46 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  27i,14n,25p,689b,185s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -400,9 +405,9 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2009/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2009/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2009/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on cxs_symmerty.pdf (7 pages, 225859 bytes).
+Output written on cxs_symmerty.pdf (8 pages, 228755 bytes).
 PDF statistics:
- 98 PDF objects out of 1000 (max. 8388607)
+ 101 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -115,78 +115,38 @@ M_{\lambda \mu}(q) &= \sum_{\ell m} \sum_{L M} \> G_{\ell m}(q) \> G_{L M}^* (q)
 &= \sum_{\ell m} \sum_{L M} \> (-1)^M \> N_{\ell L \lambda} \> G_{\ell m}(q) \> G_{L M}^* (q) \>
 \left( \begin{array}{ccc}
 \ell & L & \lambda \\
-0 & 0 & 0 \\
-\end{array} \right)
-\left( \begin{array}{ccc}
-\ell & L & \lambda \\
 m & -M & \mu \\
 \end{array} \right)
 \end{align*}
 where we have employed the Wigner $3j$-symbols and the coefficient
 \[
-N_{\ell L \lambda} = \sqrt{ \frac{(2 \ell + 1)(2 L + 1)(2 \lambda + 1)}{4 \pi} }
+N_{\ell L \lambda} = \sqrt{ \frac{(2 \ell + 1)(2 L + 1)(2 \lambda + 1)}{4 \pi} } \left( \begin{array}{ccc}
+\ell & L & \lambda \\
+0 & 0 & 0 \\
+\end{array} \right)
 \]
-alternatively, we may wish to employ the Wigner-Eckart theorem, in which case this reads
+The Wigner symbols have a symmetry requirement that the magnetic quantum numbers sum to zero, that is
 \[
-M_{\lambda \mu} = \sum_{\ell L} \langle L || Y_\lambda || \ell \rangle 
-\sum_{m M} \> G_{\ell m}(q) \> G_{L M}^* (q) \>  C^{\ell m}_{\lambda \mu LM}
+\left( \begin{array}{ccc}
+l_1 & l_2 & l_3 \\
+m_1 & m_2 & m_3 \\
+\end{array} \right) = 0
+\ \ \mathrm{if} \ \ 
+m_1 + m_2 + m_3 \neq 0
 \]
-where $\langle L || Y_\lambda || \ell \rangle$ is the \emph{reduced matrix element} independent of $m$ and $M$, and $C^{\ell m}_{\lambda \mu LM}$ is a Clebsh-Gordon coefficient.
-
-Let $h_{\ell m} = | \langle L || Y_\lambda || \ell \rangle \> C^{\ell m}_{\lambda \mu LM} |^{1/2}  \> G_{\ell m}$, so that we may write
+employ this fact to write $\mu$ in terms of $m$ and $M$, since all other terms will be zero,
 \[
-M_{\lambda \mu} = \sum_{\ell L} \sum_{m M} h_{\ell m}(q) \> h_{L M} (q)
-\exp \big\{ i \theta_{\ell m L M} \big\}
+M_{\lambda \mu} = \sum_{\ell L} N_{\ell L \lambda}  \sum_{m M} \> (-1)^M \> G_{\ell m}(q) \> G_{L M}^* (q) \>
+\left( \begin{array}{ccc}
+\ell & L & \lambda \\
+m & -M & M-m \\
+\end{array} \right)
 \]
-where $\theta$ is the phase of $G_{\ell m}(q) \> G_{L M}^* (q)$. So long as we can rotate the Kam bases such that we can ignore all but the $\mu = 0$ term (PROOF NEEDED), then because $m + M + \mu = 0$, we can write
+clearly, $M_{\lambda \mu}$ is not a function of $\mu$. This is a statement of the rotational invariance of the system. Using (\ref{Cl}), this leads immediately to the simplification for values of $C_\lambda$ that measure an \emph{autocorrelation} ($q_1 = q_2$),
 \[
-M_{\lambda \mu} = \sum_{\ell L} \sum_{m} h_{\ell m}(q) \> h_{L (-m)} (q)
-\exp \big\{ i \theta_{\ell m L M} \big\}
+\sqrt{C_\lambda (q, q)} = \sqrt{2 \lambda + 1} \, | M_\lambda |
 \]
-Let matrix $H = (h_{\ell k})$, where $k = m + 1, \ k = 1... 2\ell+1$ re-indexes $m$, and $1_n$ be a vector with unity in the first $n$ positions, and zero everywhere else. Then we can write the modulus of $M_{\lambda \mu}$ very compactly in Dirac notation
-\[
-| M_{\lambda \mu} | = \langle 1_\lambda | H \, \Pi \, H^T | 1_\lambda \rangle 
-\]
-with $\Pi$ a permutation matrix of the form
-\[
-\Pi = \left[ \begin{array}{ccc}
- &  &  1\\
- & \udots  & \\
-1 &  &  \\
-\end{array} \right]
-\]
-such that the multiplication $A \Pi$ swaps the columns of $A$. Note that the elements of $H$ are functions of $\lambda$ and $q$; their indexing defines the dependence on $\ell, m, L$ and $M$.
-
-Now, the Kam coefficients take the form (dbl chk but I think this is only OK for autocorrelator)
-\[
-C_\lambda (q_1, q_2) =
-\langle 1_\lambda | H_1 \, \Pi \, H_1^T | 1_\lambda \rangle 
-\langle 1_\lambda | H_2 \, \Pi \, H_2^T | 1_\lambda \rangle 
-\]
-for an autocorrelator $q_1 = q_2$,
-\[
-\sqrt{C_\lambda (q, q)} =
-\langle 1_\lambda | H \, \Pi \, H^T  | 1_\lambda \rangle 
-\]
-the vector $\*C_\lambda$ may be written
-\[
-\sqrt{ \*C_\lambda (q,q) } = T H \, \Pi \, H^T \*1
-\]
-where $T$ is a matrix with ones in the lower diagonal and zeros otherwise and $\*1$ is a vector of all ones. Note that if found, the $h_{\ell m}$ coefficients completely specify the real-space electron density up to a phase. Further, that phase is constrained to discrete values $\theta_{\ell m L M} = \{ 0, 1, 2, 3 \}$. Thus, these coefficients contain nearly all the information about the electron density. The problem of inferring them, however, is quite poorly conditioned.
-
-Further, the conditioning of the problem can be improved if we relax our inferred variables to be
-\[
-x_{\ell L} = \sum_m h_{\ell m} h_{L (-m)}
-\]
-in this case, we obtain
-\[
-\sqrt{ \*C_\lambda (q,q) } = T X \*1
-\]
-where our independent variables are now contained in the $\lambda_{max} \times \lambda_{max}$ matrix $X$ (\emph{vs.}~the $\lambda_{max} \times (2\lambda_{max} + 1)$ matrix $H$. $X$ gives the (rotationally smeared) magnitudes of the symmetries along the diagonal, cross terms off diagonal. Further, because the inference is now linear (instead of quadratic), this could be solved directly using the principles of compressed sensing via \emph{e.g.}~basis pursuit. We expect $X$ to be sparse, because ...
-
-NEED:  rotation trick to eliminate $\mu$ is acceptable
-
-NOTES: We have ignored cross correlators. Need to figure out what information loss there is due to ignoring them, and how we might be able to employ that info.
+where we have dropped the $\mu$ subscript on $M$.
 
 \section{Kam Expansion}
 
@@ -256,9 +216,9 @@ Finally, substituting this back into
 \mathrm{ [NEED FULL EXPRESSION]}
 \end{equation}
 This is the central result of Kam, which we will call ``Kam's Expansion''. The term in square brackets is a coefficient of an expansion of the correlation in Legendre polynomials. These coefficients,
-\[
+\begin{equation}\label{Cl}
 C_\ell (q_1, q_2) = \sum_{m = -\ell}^{\ell}  \> M_{\ell m} (q_1) \> M_{\ell m}^* (q_2)
-\]
+\end{equation}
 can be obtained from an experimentally measured correlation function by simple projection,
 \[
 C_\ell (q_1, q_2) = 2 \pi (2 \ell + 1 ) \int_{0}^{\pi} C( q_1, q_2, \psi ) \> P_\ell (\cos \psi ) \> \sin \psi \> d \psi
@@ -274,7 +234,7 @@ Note that the $\ell = 0$ term corresponds to information that is isotropic, depe
 M_{\ell m} (q) =  \int Y_{\ell m} (\Omega) M( 0, q, \Omega ) \> d \Omega
 \end{equation}
 via \textit{e.g.}~a finite point-sampling algorithm. The normalization here makes these coefficients directly relatable to those measured by experiment, 
-Equation (\ref{expanded-correlation}) shows that said coefficients can be obtained from experiment by projecting the measured correlation function onto the Legendre polynomials,\footnote{Recall the normalization of Legendre polynomials, $\int_{-1}^{1} P_m (x) P_n(x) dx = \frac{2}{2n + 1} \delta_{mn}$}
+Equation (\ref{expanded-correlation}) shows that said coefficients can be obtained from experiment by projecting the measured correlation function onto the Legendre polynomials, \footnote{Recall the normalization of Legendre polynomials, $\int_{-1}^{1} P_m (x) P_n(x) dx = \frac{2}{2n + 1} \delta_{mn}$}
 
 where we have written $C( \*q_1, \*q_2 ) = C( q_1, q_2, \psi )$ to emphasize the dependence of the correlation function on the angle between the scattering vectors.
 
@@ -311,17 +271,23 @@ Proof. It was demonstrated in [REF] that any spherical harmonic can be represent
 \[
  Y_{\ell m} (\Omega) = \sum_{M=-\ell}^{\ell} d^{(\ell)}_{mM} \> Y_{\ell M} ( R_\omega \, \Omega )
 \]
-where the coefficients obey $\sum_{M=-\ell}^{\ell} \big[ d^{(\ell)}_{mM} \big]^2 = 1$.
+where the coefficients $d^{(\ell)}_{mM} (\beta) = \langle \ell M \, | e^{-i \beta L_y} | \, \ell m \rangle$ are the Wigner small d-matrices which obey $\sum_{M=-\ell}^{\ell} \big[ d^{(\ell)}_{mM} \big]^2 = 1$.
 
 Given a linear combination of such rotated spherical harmonics
-\[
-\sum_{m=-\ell}^{\ell} a_{\ell m} Y_{\ell m} (\Omega) = \sum_{m=-\ell}^{\ell} a_{\ell m} \sum_{M=-\ell}^{\ell} d^{(\ell)}_{mM} \> Y_{\ell M} ( R_\omega \, \Omega )
-\]
-we may rearrange the finite sums
-\[
-\sum_{m=-\ell}^{\ell} a_{\ell m} Y_{\ell m} (\Omega) = \sum_{M=-\ell}^{\ell} A_\ell \> d^{(\ell)}_{mM} \> Y_{\ell M} ( R_\omega \, \Omega )
-\]
-where we have written $A \equiv \sum_{m=-\ell}^\ell a_{\ell m}^2$. Since $\sum_{M=-\ell}^{\ell} \big[ d^{(\ell)}_{mM} \big]^2 = 1$, it follows directly that $\sum_{M=-\ell}^{\ell} \big[ A_\ell \> d^{(\ell)}_{mM} \big]^2 = \sum_{m=-\ell}^\ell a_{\ell m}^2$. Identifying $A_{\ell} \> d^{(\ell)}_{mM} = b_{\ell M}$ completes the proof.
+\begin{align*}
+\sum_{m=-\ell}^{\ell} a_{\ell m} Y_{\ell m} (\Omega) &= 
+\sum_{m=-\ell}^{\ell} a_{\ell m} \sum_{M=-\ell}^{\ell} d^{(\ell)}_{mM} \> Y_{\ell M} ( R_\omega \, \Omega ) \\
+&= \sum_{M} \left( \sum_{m} a_{\ell m} \, d^{(\ell)}_{mM} \right) \> Y_{\ell M} ( R_\omega \, \Omega )
+\end{align*}
+Let $b_{\ell M} =  \sum_{m} a_{\ell m} \, d^{(\ell)}_{mM}$; then all that remains is to show $\sum_M b_{\ell M}^2 = \sum_M a_{\ell M}^2$. This can be done using the definition of the small $d$ matrices,
+\begin{align*}
+\sum_M b_{\ell M}^2 &= \sum_M \left( \sum_{m} a_{\ell m} \, d^{(\ell)}_{mM} \right)^2 \\
+&= \sum_M  \sum_{m m'} a_{\ell m} a_{\ell m'} \langle \ell M \, | e^{-i \beta L_y} | \, \ell m \rangle \langle \ell M \, | e^{-i \beta L_y} | \, \ell m' \rangle \\
+&= \sum_M  \sum_{m m'} a_{\ell m} a_{\ell m'} 
+\langle \ell M \, | e^{-i \beta L_y} | \, \ell m \rangle 
+\langle \ell m' \, | e^{i \beta L_y} | \, \ell M \rangle \\
+&= \sum_M a_{\ell m}^2
+\end{align*}
 
 
 

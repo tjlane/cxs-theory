@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2009.11.7)  25 AUG 2013 12:02
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009) (format=pdflatex 2009.11.7)  6 OCT 2013 20:11
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -344,46 +344,42 @@ LaTeX Font Info:    ... okay on input line 40.
 \openout3 = `cxs_symmertyNotes.bib'.
 
  [1{/usr/local/texlive/2009/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2] 
-[3] [4] [5]
+[3] [4]
 
-LaTeX Warning: Reference `expanded-correlation' on page 6 undefined on input li
-ne 267.
-
-
-LaTeX Warning: Reference `expanded-correlation' on page 6 undefined on input li
-ne 277.
+LaTeX Warning: Reference `expanded-correlation' on page 5 undefined on input li
+ne 227.
 
 
-Package natbib Warning: Citation `Note1' on page 6 undefined on input line 277.
+LaTeX Warning: Reference `expanded-correlation' on page 5 undefined on input li
+ne 237.
 
 
-[6]
-Overfull \hbox (3.02382pt too wide) in paragraph at lines 302--308
+Package natbib Warning: Citation `Note1' on page 5 undefined on input line 237.
+
+
+[5]
+Overfull \hbox (3.02382pt too wide) in paragraph at lines 262--268
 []\OT1/cmr/bx/n/12 Lemma. \OT1/cmr/m/it/12 For any lin-ear com-bi-na-tion of sp
 her-i-cal har-mon-ics of the form $[][] \OML/cmm/m/it/12 a[]Y[]\OMX/MnSymbolE/m
 /n/12 ˆ\OT1/cmr/m/n/12 
 \OMX/MnSymbolE/m/n/12 $\OT1/cmr/m/it/12 ,
  []
 
-[7]
+[6]
 No file cxs_symmerty.bbl.
 
 Package natbib Warning: There were undefined citations.
 
-[8] (./cxs_symmerty.aux)
+[7] (./cxs_symmerty.aux)
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right .
-
-
  ) 
 Here is how much of TeX's memory you used:
- 4714 strings out of 493848
- 60424 string characters out of 3149207
+ 4716 strings out of 493848
+ 60439 string characters out of 3149207
  111253 words of memory out of 3000000
- 7989 multiletter control sequences out of 15000+200000
+ 7991 multiletter control sequences out of 15000+200000
  13657 words of font info for 46 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
  27i,14n,25p,674b,185s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -405,9 +401,9 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2009/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2009/texmf-d
 ist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2009/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on cxs_symmerty.pdf (8 pages, 227926 bytes).
+Output written on cxs_symmerty.pdf (7 pages, 221788 bytes).
 PDF statistics:
- 101 PDF objects out of 1000 (max. 8388607)
+ 98 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

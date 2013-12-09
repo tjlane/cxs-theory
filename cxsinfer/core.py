@@ -105,7 +105,6 @@ class GkCoefficients(object):
         for k in range(new_gk.shape[0]):
             
             l,m = cls._backward_index_compact(k)
-            print l,m
             assert m >= 0
             
             kp1 = cls.forward_index(l,m)
@@ -292,6 +291,10 @@ class GkCoefficients(object):
     
 
 class HTensor(object):
+    """
+    Note: all the matrices contained in this class are in full (non-compact)
+    linear index space.
+    """
     
     def __init__(self, lbd_max):
         self._lbd_max = lbd_max
@@ -378,6 +381,10 @@ class HTensor(object):
         H = self.lbd(lbd)
         n = H.shape[0]
         
+        if n > bra.shape[0]:
+            raise ValueError('bra/ket length too small -- does not cover the '
+                             'dense space of H')
+        
         product = np.dot(bra[:n], H.dot(ket[:n]))
         
         return product
@@ -418,8 +425,8 @@ class AutocorrRegressor(object):
         
     def _sigma_gk(self, Gk_v):
         sigma = np.zeros_like(Gk_v)
-        sigma[ Gk_v > 0.0 ] =  1.0
-        sigma[ Gk_v < 0.0 ] = -1.0
+        sigma[ Gk_v > 0.0 ]  =  1.0
+        sigma[ Gk_v < 0.0 ]  = -1.0
         sigma[ Gk_v == 0.0 ] =  0.0
         return sigma
     
@@ -427,15 +434,9 @@ class AutocorrRegressor(object):
     def _Gparam_to_Gk(self, G_param):
         
         gk = GkCoefficients._from_param_array(G_param)
-        Gk_v = gk.compact_linear_array
+        #Gk_v = gk.compact_linear_array
+        Gk_v = gk.linear_array
         Gk_s = np.conjugate(Gk_v)
-        
-        # Gk_v = np.zeros((self.n_param, 2), dtype=np.float64)
-        # Gk_v[:,0] = np.real(cla)
-        # Gk_v[:,0] = np.imag(cla)
-        # 
-        # Gk_s = Gk_v.copy()
-        # Gk_s[:,1] *= -1 # take complex conj
         
         return Gk_v, Gk_s
     
@@ -445,7 +446,7 @@ class AutocorrRegressor(object):
         Gk_v, Gk_s = self._Gparam_to_Gk(G_param)
 
         obj = 0.0
-        for lbd in range(self.lbd_max): 
+        for lbd in range(self.lbd_max):
             obj += np.power( np.abs(self._HT.dirac_product(Gk_s, Gk_v, lbd) - self._M_lbd[lbd]), 2)
 
         obj += np.sum(np.abs(Gk_v) * self.alpha)
@@ -456,17 +457,29 @@ class AutocorrRegressor(object):
     def _objective_grad(self, G_param):
 
         Gk_v, Gk_s = self._Gparam_to_Gk(G_param)
-
         grad = np.zeros((len(Gk_v), 2))
-        g = np.zeros(len(Gk_v), dtype=np.complex128) # tmp storage
 
+        # derivative = 2f * f' + alpha * sigma
         for lbd in range(self.lbd_max):
+
             n = lbd * (lbd+2) + 1
-            g     +=  4.0 * np.power( np.abs(self._HT.dirac_product(Gk_s, Gk_v, lbd)) - self._M_lbd[lbd], 2)
-            g[:n] *= self._HT.lbd(lbd).dot(Gk_v[:n])
-            g += self.alpha * self._sigma_gk(Gk_v)
-            grad[:,0] += np.real(g)
-            grad[:,1] += np.imag(g)
+
+            # f
+            g = np.zeros(n, dtype=np.complex128) # tmp storage
+            g += 2.0 * np.power( np.abs(self._HT.dirac_product(Gk_s, Gk_v, lbd)) - self._M_lbd[lbd], 2)
+            
+            # f' -- term from the chain rule
+            Hg = self._HT.lbd(lbd).dot(Gk_v[:n])
+            g[:] *= np.conjugate(Hg) # + Hg
+            
+            # store real/imag components separately
+            grad[:n,0] += np.real(g)
+            grad[:n,1] += np.imag(g)
+            
+        # and finally the term due to the L1 regularization
+        s = self.alpha * self._sigma_gk(Gk_v)
+        grad[:,0] += np.real(s)
+        grad[:,1] += np.imag(s)
 
         # translate to compact indices
         grad_compact = np.zeros((self.n_param, 2))
@@ -475,6 +488,7 @@ class AutocorrRegressor(object):
             if m >=0:
                 grad_compact[GkCoefficients._forward_index_compact(l,m),:] = grad[k,:]
 
+        assert G_param.shape == grad_compact.flatten().shape
         return grad_compact.flatten()
     
         

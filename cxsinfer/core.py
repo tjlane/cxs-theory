@@ -98,7 +98,7 @@ class GkCoefficients(object):
     @classmethod
     def from_compact_linear_array(cls, new_gk):
         """
-        Create an instance from a linear non-compact g_k array.
+        Create an instance from a linear compact g_k array.
         """
         gk = np.zeros(self.n_param, dtype=np.complex128)
         
@@ -300,7 +300,7 @@ class HTensor(object):
         self._lbd_max = lbd_max
         
         self._matrix_list = []
-        for l in range(self._lbd_max):
+        for l in range(self._lbd_max+1):
             self._matrix_list.append(self._compute_H(l))
             
         return
@@ -399,7 +399,7 @@ class AutocorrRegressor(object):
         self._M_lbd = self._C_lbd_to_M(self._legendre_coefficients)
         self.alpha = alpha
         
-        self._lbd_max = len(self._legendre_coefficients)
+        self._lbd_max = len(self._legendre_coefficients) - 1
         
         self._n_param = (self._lbd_max ** 2 + 3 * self._lbd_max) / 2 + 1
         self._HT = HTensor(self._lbd_max)
@@ -424,84 +424,90 @@ class AutocorrRegressor(object):
     
         
     def _sigma_gk(self, Gk_v):
-        sigma = np.zeros_like(Gk_v)
-        sigma[ Gk_v > 0.0 ]  =  1.0
-        sigma[ Gk_v < 0.0 ]  = -1.0
-        sigma[ Gk_v == 0.0 ] =  0.0
+        
+        sigma = np.zeros((len(Gk_v), 2))
+        
+        sigma[np.real(Gk_v) > 0.0, 0]  =  1.0
+        sigma[np.real(Gk_v) < 0.0, 0]  = -1.0
+        
+        sigma[np.imag(Gk_v) > 0.0, 1]  =  1.0
+        sigma[np.imag(Gk_v) < 0.0, 1]  = -1.0
+        
+        # sigma[ Gk_v == 0.0 ] =  0.0 # already done implicitly
+        
         return sigma
     
         
-    def _Gparam_to_Gk(self, G_param):
-        
-        gk = GkCoefficients._from_param_array(G_param)
-        #Gk_v = gk.compact_linear_array
-        Gk_v = gk.linear_array
-        Gk_s = np.conjugate(Gk_v)
-        
-        return Gk_v, Gk_s
+    # def _Gparam_to_Gk(self, G_param):
+    #     
+    #     gk = GkCoefficients._from_param_array(G_param)
+    #     Gk_v = gk.linear_array
+    #     Gk_s = np.conjugate(Gk_v)
+    #     
+    #     return Gk_v, Gk_s
     
 
     def _objective(self, G_param):
-
-        Gk_v, Gk_s = self._Gparam_to_Gk(G_param)
+        
+        s = G_param.shape[0]/2
+        Gk_v = G_param[:s] + 1j * G_param[s:]
+        Gk_s = np.conjugate(Gk_v)
 
         obj = 0.0
-        for lbd in range(self.lbd_max):
+        for lbd in range(self.lbd_max+1):
             obj += np.power( np.abs(self._HT.dirac_product(Gk_s, Gk_v, lbd) - self._M_lbd[lbd]), 2)
 
-        obj += np.sum(np.abs(Gk_v) * self.alpha)
+        obj += np.sum(np.abs(G_param)) * self.alpha
 
         return obj
     
 
     def _objective_grad(self, G_param):
-
-        Gk_v, Gk_s = self._Gparam_to_Gk(G_param)
-        grad = np.zeros((len(Gk_v), 2))
+        
+        s = G_param.shape[0]/2
+        grad = np.zeros(s, dtype=np.complex)
+        Gk_v = G_param[:s] + 1j * G_param[s:]
+        Gk_s = np.conjugate(Gk_v)
 
         # derivative = 2f * f' + alpha * sigma
-        for lbd in range(self.lbd_max):
-
+        for lbd in range(self.lbd_max+1):
             n = lbd * (lbd+2) + 1
-
+            
             # f
             g = np.zeros(n, dtype=np.complex128) # tmp storage
-            g += 2.0 * np.power( np.abs(self._HT.dirac_product(Gk_s, Gk_v, lbd)) - self._M_lbd[lbd], 2)
+            g += 4.0 * (self._HT.dirac_product(Gk_s, Gk_v, lbd) - self._M_lbd[lbd])
             
             # f' -- term from the chain rule
-            Hg = self._HT.lbd(lbd).dot(Gk_v[:n])
-            g[:] *= np.conjugate(Hg) # + Hg
+            g[:] *= self._HT.lbd(lbd).dot(Gk_v[:n]) # (Hg)_k
             
-            # store real/imag components separately
-            grad[:n,0] += np.real(g)
-            grad[:n,1] += np.imag(g)
-            
-        # and finally the term due to the L1 regularization
-        s = self.alpha * self._sigma_gk(Gk_v)
-        grad[:,0] += np.real(s)
-        grad[:,1] += np.imag(s)
-
-        # translate to compact indices
-        grad_compact = np.zeros((self.n_param, 2))
-        for k in range(grad.shape[0]):
-            l,m = GkCoefficients._backward_index(k)
-            if m >=0:
-                grad_compact[GkCoefficients._forward_index_compact(l,m),:] = grad[k,:]
-
-        assert G_param.shape == grad_compact.flatten().shape
-        return grad_compact.flatten()
+            # accumulate
+            grad[:n] += g
+        
+        # reformat the answer
+        # and add (finally) the term due to the L1 regularization
+        ret = np.zeros(s*2)
+        ret[:s] = np.real(grad) + self.alpha * self._sigma_gk(Gk_v)[:,0]
+        ret[s:] = np.imag(grad) + self.alpha * self._sigma_gk(Gk_v)[:,1]
+        
+        return ret
     
         
     def optimize_coefficients(self):
     
+        x = self.lbd_max**2 + 2*self.lbd_max + 1
+        Gk0 = np.random.randn(x*2) / 10. # x2 for complex
         
-        Gk0 = np.random.randn(self.n_param*2) / 10. # x2 for complex
         gk_opt = optimize.fmin_bfgs(self._objective, Gk0, 
-                                    #fprime=self._objective_grad,
-                                    fprime=None,
+                                    fprime=self._objective_grad,
+                                    #fprime=numerical_grad,
+                                    #fprime=None,
                                     maxiter=int(1e6), disp=1)
+
+        # reshape final array into a linear complex one
+        s = gk_opt.shape[0]/2
+        gk = gk_opt[:s] + 1j * gk_opt[s:]
     
-        return GkCoefficients._from_param_array(gk_opt)
+        return GkCoefficients.from_linear_array(gk)
     
 
     
